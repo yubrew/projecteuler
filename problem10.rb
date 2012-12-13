@@ -16,5 +16,21 @@ def prime?(n)
 	return true 
 end
 
-primes = [*2..2000000].keep_if {|n| prime?(n) }
+#primes = [*2..2000000].keep_if {|n| prime?(n) }
+#puts primes.inject(:+)
+#takes about 40 seconds
+
+#sieve from http://stackoverflow.com/questions/241691/sieve-of-eratosthenes-in-ruby
+def sieve_upto(n)
+  s = (0..n).to_a
+  s[0] = s[1] = nil
+  s.each do |p|
+    next unless p
+    break if p * p > n
+    (p*p).step(n, p) { |m| s[m] = nil }
+  end
+  s.compact
+end
+
+primes = sieve_upto(2000000)
 puts primes.inject(:+)
